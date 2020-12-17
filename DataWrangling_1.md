@@ -49,5 +49,17 @@
   * sequencing_depth = depth of sequencing
   * cit = citrate-using mutant status
 
-## DO THIS:
-1. 
+## ANSWER THESE QUESTIONS:
+1. How many different generations exist in the data:
+
+
+2. How many ros and how many columns exist in the data:
+
+
+3. How many citrate+ mutants have been recorded in Ara-3:
+
+
+4. How many hypermutable mutants have been recorded in Ara-3:
+
+
+
