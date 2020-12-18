@@ -34,7 +34,20 @@
 * OUR GOAL is to identify and characterize these changes using a variant calling pipeline.
 
 * Here are your metadata: https://raw.githubusercontent.com/datacarpentry/wrangling-genomics/gh-pages/files/Ecoli_metadata_composite.csv
+```
+# If you haven't already logged on to the AWI, please do so.
+# password: data4Carp
 
+clear
+PS1='$ '
+
+pwd
+cd shell_data/sra_metadata/
+curl -O https://raw.githubusercontent.com/datacarpentry/wrangling-genomics/gh-pages/files/Ecoli_metadata_composite.csv
+ls
+
+# CLICK THUMBS UP when you have downloaded the metadata
+```
 * Explanation of spreadsheet headers:
   * strain = strain name
   * generation = generation when sample was frozen
@@ -49,17 +62,40 @@
   * sequencing_depth = depth of sequencing
   * cit = citrate-using mutant status
 
-## ANSWER THESE QUESTIONS:
-1. How many different generations exist in the data:
+* We have this metadata, now let's explore it a bit to answer these questions:
+ * There are lots of ways to do this.
+ * My preferred method is to use R, which we will learn more about later in the workshop.
+* About half of you have used R before. Feel free to follow along, or you can watch me walk through the questions:
+```
+R
+# opens a base version of R, which we will learn more about in upcoming workshops
+# Load the metadata file so that we can answer these questions:
 
+ecoli <- read.csv("Ecoli_metadata_composite.csv", header = TRUE)
+head(ecoli)
+```
+1. How many different generations exist in the data?
+```
+length(unique(ecoli$generation))
+# 25 different generations
+```
+2. How many rows and how many columns are in this data?
+```
+dim(ecoli)
+# 62 rows, 12 columns
+```
+3. How many citrate+ mutants have been recorded in Ara-3?
+```
+dim(subset(ecoli, cit == "plus"))
+# 10 citrate+ mutants
+```
+4. How many hypermutable mutants have been recorded in Ara-3?
+```
+dim(subset(ecoli, mutator == "plus"))
+# 6 hypermutable mutants
 
-2. How many ros and how many columns exist in the data:
-
-
-3. How many citrate+ mutants have been recorded in Ara-3:
-
-
-4. How many hypermutable mutants have been recorded in Ara-3:
-
+quit()
+n
+```
 
 
