@@ -172,7 +172,7 @@ https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/
   * Sequence duplication levels: expect most reads to occur only once. If sequences occur more than once, may indicate enrichment bias during PCR in library prep, or if sequencing was done at high coverage (eg RNA-seq, amplicon sequencing)
   * Overrepresented sequences: A list of sequences that occur more frequently than would be expected by chance.
   * Adapter content: when using long read lengths it is possible that some of the library inserts are shorter than the read length resulting in read-through to the adapter at the 3' end.
-  * k-mer content: shows sequences which may show positional bias within the reads
+  * <ins>k-mer content</ins>: shows sequences which may show positional bias within the reads
   
 
 General patterns:
