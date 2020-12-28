@@ -161,17 +161,17 @@ cshs -s /bin/bash
 https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/
 * The first file:
  * A linked navigation summary is on the left
-  * Basic Statistics
-  * Per base sequence quality: Note that the axis isn't uniform; the later bins are aggregates of 5bp windows
-  * Per tile sequence quality: Specific to Illumina library technology. Shows quality scores across all bases to see if there was a loss in quality associated with only one part of the flowcell (Could be caused by bubbles, smudges on flowcell, debrid in flowcell lane)
-  * Per sequence quality scores: density plot of quality for all reads at all positions.
-  * Per base sequence content: proportion of each base position over all of the reads. Expect ~25% through most of the read
-  * Per sequence GC content: density plot of average GC content in each of the reads based on expected GC content. Deviation may be expected (especially for RNAseq data). Other issues may arise from contamination or library prep problems.
-  * Per base N content: percent that 'N' occurs at a position in all reads. An increase at a particular position may indicate a problem occurred during sequencing.
-  * Sequence length distribution: raw data, usually a sharp peak; trimmed data, may be broader distribution because reads are trimmed at different places.
-  * Sequence duplication levels: expect most reads to occur only once. If sequences occur more than once, may indicate enrichment bias during PCR in library prep, or if sequencing was done at high coverage (eg RNA-seq, amplicon sequencing)
-  * Overrepresented sequences: A list of sequences that occur more frequently than would be expected by chance.
-  * Adapter content: when using long read lengths it is possible that some of the library inserts are shorter than the read length resulting in read-through to the adapter at the 3' end.
+  * <ins>Basic Statistics</ins>
+  * <ins>Per base sequence quality</ins>: Note that the axis isn't uniform; the later bins are aggregates of 5bp windows
+  * <ins>Per tile sequence quality</ins>: Specific to Illumina library technology. Shows quality scores across all bases to see if there was a loss in quality associated with only one part of the flowcell (Could be caused by bubbles, smudges on flowcell, debrid in flowcell lane)
+  * <ins>Per sequence quality scores</ins>: density plot of quality for all reads at all positions.
+  * <ins>Per base sequence content</ins>: proportion of each base position over all of the reads. Expect ~25% through most of the read
+  * <ins>Per sequence GC content</ins>: density plot of average GC content in each of the reads based on expected GC content. Deviation may be expected (especially for RNAseq data). Other issues may arise from contamination or library prep problems.
+  * <ins>Per base N content</ins>: percent that 'N' occurs at a position in all reads. An increase at a particular position may indicate a problem occurred during sequencing.
+  * <ins>Sequence length distribution</ins>: raw data, usually a sharp peak; trimmed data, may be broader distribution because reads are trimmed at different places.
+  * <ins>Sequence duplication levels</ins>: expect most reads to occur only once. If sequences occur more than once, may indicate enrichment bias during PCR in library prep, or if sequencing was done at high coverage (eg RNA-seq, amplicon sequencing)
+  * <ins>Overrepresented sequences</ins>: A list of sequences that occur more frequently than would be expected by chance.
+  * <ins>Adapter content</ins>: when using long read lengths it is possible that some of the library inserts are shorter than the read length resulting in read-through to the adapter at the 3' end.
   * <ins>k-mer content</ins>: shows sequences which may show positional bias within the reads
   
 
