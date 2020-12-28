@@ -42,8 +42,31 @@
     1. Sequencing starts with library preparation. Genomic DNA (or cDNA if starting from RNA) is fragmented size-selected. 5’ and 3’ adapters are ligated. (Adapters can include sample-specific indices).
     2. Library is loaded into a flow cell and the fragments bind to short sequences that are complementary to the adapters. Bridge amplification generates clusters of primed templates across the flow cell.
     3. Sequencing by synthesis occurs as bases are added to the sequencing primer in a series of cycles. Bases are fluorescently labeled and when they are incorporated, they emit a base-specific wavelength that is decoded in an output file. One base is incorporated each cycle. The number of cycles determines the length of the read.
+  * For a good resource: https://www.illumina.com/content/dam/illumina-marketing/documents/products/illumina_sequencing_introduction.pdf
 
-  
-  * Paired-end reads can help with sequence assembly, especially if the reference genome is high quality (is with model organisms)
+* We are using the European Nucleotide Archive to access our data.
+ * The ENA "provides a comprehensive record of the world's nucleotide sequencing information, covering raw sequencing data, sequence assemply information and functional annotation."
+ * Data are provided in FASTQ format
+
+## Download the data:
+```
+mkdir -p ~/dc_workshop/data/untrimmed_fastq/
+cd ~/dc_workshop/data/untrimmed_fastq/
+
+# -p option allows mkdir to create a new directory even if one of the parent direcoties doesn't already exist and supresses errors if the directory already exists WITHOUT overwriting that directory
+
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_1.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/004/SRR2589044/SRR2589044_2.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_1.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_2.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_1.fastq.gz
+curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq.gz 
+
+# This takes about 15 minutes.
+# If there are connection issues, run this:
+cd ~/dc_workshop/data/untrimmed_fastq/
+cp ~/.backup/untrimmed_fastq/*fastq.gz .
+
+```
 
 
