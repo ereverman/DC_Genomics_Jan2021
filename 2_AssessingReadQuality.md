@@ -62,7 +62,7 @@ curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/003/SRR2584863/SRR2584863_2.fa
 curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_1.fastq.gz
 curl -O ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR258/006/SRR2584866/SRR2584866_2.fastq.gz 
 
-# This takes about 15 minutes.
+# This takes about 5 minutes for me.
 # If there are connection issues, run this:
 cd ~/dc_workshop/data/untrimmed_fastq/
 cp ~/.backup/untrimmed_fastq/*fastq.gz .
@@ -70,3 +70,111 @@ cp ~/.backup/untrimmed_fastq/*fastq.gz .
 ```
 
 
+## Unzip the data:
+```
+# The data files are very large and download in a compressed format.
+ls -lh
+
+# unzip:
+gunzip SRR2584863_1.fastq.gz
+ls -lh
+# File is much bigger.
+```
+
+## Quality Control:
+* FASTQ files have a specific format:
+ * LINE 1 @ followed by information about the read
+ * LINE 2 DNA sequence
+ * LINE 3 + and sometimes same info as line 1
+ * LINE 4 Quality scores for each base
+ 
+```
+head -n 4 SRR2584863_1.fastq
+```
+* Line 4 shos the quality for each nucleotide in the read.
+* Quality is interpreted as the probability of an incorrect base call or base call accuracy.
+* Numerical score is converted into a code so that the DNA sequence and the quality for each base match up perfectly.
+ * Depends on the sequencing platform that generated the reads
+ * Our data uses the standard Sanger quality PHRED score encoding, Illumina v 1.8
+ * Quality scores range from 0 to 41 and relates to accuracy probability on a logarithmic scale.
+
+```
+# Looking back at the read, the last several bases have very poor quality scores (# = 2)
+# Now, take a look at the last read in the file:
+
+tail -n 4 SRR2584863_1.fastq
+
+# Has a range of quality scores, seems to be better quality at the end of the read compared to the first read.
+```
+## Verify FASTQC is installed:
+```
+fastqc -h
+# opens the manual page
+# THUMBS UP/DOWN
+```
+## Running FASTQC:
+```
+cd untrimmed_fastq/
+
+# There are a few ways to do this:
+# Let's use some wildcards to simplify
+
+fastqc *.fastq*
+
+ls -lh
+```
+* FASTQC generates two types of files:
+ * .zip = compressed set of multiple output files.
+ * .html = stable webpage with a summary report for each sample
+* Keep the raw data and results files separate:
+```
+mkdir -p ~/dc_workshop/results/fastqc_untrimmed_reads
+mv *.zip ~/dc_workshop/results/fastqc_untrimmed_reads
+mv *.htmp ~/dc_workshop/results/fastqc_untrimmed_reads
+ls
+
+cd ~/dc_workshop/results/fastqc_untrimmed_reads/
+ls
+```
+## View FASTQC Results:
+* To view the summary results, we need to access the html files
+* Easiest for us to transfer them to our local computer from AWS using scp
+
+```
+# OPEN NEW TERMINAL TAB
+mkdir -p ~/Desktop/fastqc_html
+
+scp dcuser@XXX:~/dc_workshop/results/fastqc_untrimmed_reads/*.html ~/Desktop/fastqc_html
+# Enter password
+
+# ISSUES:
+# macs, make sure you are running bash not zsh
+cshs -s /bin/bash
+# Enter password
+```
+* Open your file manager program and navigate to your fastqc directory on your desktop.
+* Double click the first file.
+* THUMBS UP/DOWN to verify everyone has access.
+* Breakout rooms for 5 minutes to look over each file and decide which samples look better/worse than others.
+
+## FASTQC Results:
+https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/
+* The first file:
+ * A linked navigation summary is on the left
+  * Basic Statistics
+  * Per base sequence quality: Note that the axis isn't uniform; the later bins are aggregates of 5bp windows
+  * Per tile sequence quality: Specific to Illumina library technology. Shows quality scores across all bases to see if there was a loss in quality associated with only one part of the flowcell (Could be caused by bubbles, smudges on flowcell, debrid in flowcell lane)
+  * Per sequence quality scores: density plot of quality for all reads at all positions.
+  * Per base sequence content: proportion of each base position over all of the reads. Expect ~25% through most of the read
+  * Per sequence GC content: density plot of average GC content in each of the reads based on expected GC content. Deviation may be expected (especially for RNAseq data). Other issues may arise from contamination or library prep problems.
+  * Per base N content: percent that 'N' occurs at a position in all reads. An increase at a particular position may indicate a problem occurred during sequencing.
+  * Sequence length distribution: raw data, usually a sharp peak; trimmed data, may be broader distribution because reads are trimmed at different places.
+  * Sequence duplication levels: expect most reads to occur only once. If sequences occur more than once, may indicate enrichment bias during PCR in library prep, or if sequencing was done at high coverage (eg RNA-seq, amplicon sequencing)
+  * Overrepresented sequences: A list of sequences that occur more frequently than would be expected by chance.
+  * Adapter content: when using long read lengths it is possible that some of the library inserts are shorter than the read length resulting in read-through to the adapter at the 3' end.
+  * k-mer content: shows sequences which may show positional bias within the reads
+  
+
+General patterns:
+* Quality decreases toward the end of the read
+* It is typical for read 1 scores to be higher than read 2
