@@ -39,9 +39,9 @@
 * Data are paired-end, so there will be two files for every sample
   * Enables both ends of the DNA to be sequenced
   * Helps align reads over repetitive regions of the genome more precisely
-    A. Sequencing starts with library preparation. Genomic DNA (or cDNA if starting from RNA) is fragmented size-selected. 5’ and 3’ adapters are ligated. (Adapters can include sample-specific indices).
-    B. Library is loaded into a flow cell and the fragments bind to short sequences that are complementary to the adapters. Bridge amplification generates clusters of primed templates across the flow cell.
-    C. Sequencing by synthesis occurs as bases are added to the sequencing primer in a series of cycles. Bases are fluorescently labeled and when they are incorporated, they emit a base-specific wavelength that is decoded in an output file. One base is incorporated each cycle. The number of cycles determines the length of the read.
+    1. Sequencing starts with library preparation. Genomic DNA (or cDNA if starting from RNA) is fragmented size-selected. 5’ and 3’ adapters are ligated. (Adapters can include sample-specific indices).
+    2. Library is loaded into a flow cell and the fragments bind to short sequences that are complementary to the adapters. Bridge amplification generates clusters of primed templates across the flow cell.
+    3. Sequencing by synthesis occurs as bases are added to the sequencing primer in a series of cycles. Bases are fluorescently labeled and when they are incorporated, they emit a base-specific wavelength that is decoded in an output file. One base is incorporated each cycle. The number of cycles determines the length of the read.
 
   
   * Paired-end reads can help with sequence assembly, especially if the reference genome is high quality (is with model organisms)
