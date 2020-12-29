@@ -91,7 +91,7 @@ ls -lh
 ```
 head -n 4 SRR2584863_1.fastq
 ```
-* Line 4 shos the quality for each nucleotide in the read.
+* Line 4 shows the quality for each nucleotide in the read.
 * Quality is interpreted as the probability of an incorrect base call or base call accuracy.
 * Numerical score is converted into a code so that the DNA sequence and the quality for each base match up perfectly.
  * Depends on the sequencing platform that generated the reads
@@ -152,10 +152,11 @@ scp dcuser@XXX:~/dc_workshop/results/fastqc_untrimmed_reads/*.html ~/Desktop/fas
 cshs -s /bin/bash
 # Enter password
 ```
+
+## Do this:
 * Open your file manager program and navigate to your fastqc directory on your desktop.
 * Double click the first file.
 * THUMBS UP/DOWN to verify everyone has access.
-* Breakout rooms for 5 minutes to look over each file and decide which samples look better/worse than others.
 
 ## FASTQC Results:
 https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/
@@ -173,8 +174,76 @@ https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/
   * <ins>Overrepresented sequences</ins>: A list of sequences that occur more frequently than would be expected by chance.
   * <ins>Adapter content</ins>: when using long read lengths it is possible that some of the library inserts are shorter than the read length resulting in read-through to the adapter at the 3' end.
   * <ins>k-mer content</ins>: shows sequences which may show positional bias within the reads
-  
+
+## Breakout rooms:
+* Breakout rooms for 5 minutes to look over each file and decide which samples look better/worse than others.
+
 
 General patterns:
 * Quality decreases toward the end of the read
 * It is typical for read 1 scores to be higher than read 2
+* Each of the samples has usable sequence, but the point varies among them for where they should be trimmed.
+
+
+## FASTQC text output:
+* Take a look at the .zip file.
+* Go back to AWS and to the fastqc_untrimmed_reads/ directory
+```
+cd ~/dc_workshop/results/fastqc_untrimmed_reads/ 
+ls 
+```
+* The .zip files are compressed files
+* Contain multiple output files for each FASTQ file
+* Use unzip to decompress the files:
+```
+unzip *.zip
+ls -lh
+unzip -h
+
+# Wildcards don't work with unzip as expected because unzip expects only one file
+```
+* We could unzip each file one by one
+* What happens when you have to do that for 500 files?
+* Let's write a for loop instead.
+
+```
+for filename in *.zip
+do
+unzip $filename
+done
+
+# Using some symbols here that have different meanings in different contexts
+# $ is typically a prompt, but here we are using it as a symbol to assign a variable
+# > is used as a redirect to send file output somewhere we specify but here it is a modified prompt
+
+ls -F
+tree
+# shows that each of the directories has several types of contents
+```
+* unzip creates a new directory with subdirectories for each of the 6 samples
+* We will focus on the summary .txt file
+
+```
+ls -F SRR2584863_1_fastqc/ 
+less SRR2584863_1_fastqc/summary.txt
+
+# Looks familiar, right?
+```
+## Documenting our work:
+* Individual summaries are useful, but better to have them all together for a project summary
+```
+mkdir -p ~/dc_workshop/docs/
+cat */summary.txt > ~/dc_workshop/docs/fastqc_summaries.txt
+
+cd ~/dc_workshop/docs/
+less fastqc_summaries.txt
+```
+
+## Challenge: Which samples failed at least one of FASTQC's quality tests? What tests did those samples fail?
+* Hint: think back to shell lessons.
+
+```
+grep FAIL fastqc_summaries.txt
+```
+
+## Building our pipeline:
