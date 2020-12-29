@@ -31,8 +31,11 @@ ls -lh
 
 # We have adapter sequences in our data files (saw with fastqc)
 # Adapter sequences came with the installation of trimmomatic
-# copy the adapter sequences to the current directory
+# Our data used Nextera adapters, but others are used.
 
+ls ~/.miniconda3/pkgs/trimmomatic-0.38-0/share/trimmomatic-0.38-0/adapters/
+
+# copy the adapter sequences to the current directory
 cp ~/.miniconda3/pkgs/trimmomatic-0.38-0/share/trimmomatic-0.38-0/adapters/NesteraPE-PR.fa .
 
 trimmomatic PE \
@@ -71,4 +74,30 @@ do
                SLIDINGWINDOW:4:20 MINLEN:25 ILLUMINACLIP:NexteraPE-PE.fa:2:40:15 
 done
 
+# Takes a few minutes for this to run
+
+ls -l
+# Note that the previous run files were overwritten. Not a problem, but important to be aware of.
+# Move the trimmed files to a new directory
+
+cd ~/dc_workshop/data/untrimmed_fastq
+mkdir ../trimmed_fastq
+mv *.trim* ../trimmed_fastq
+cd ../trimmed_fastq
+ls -lh
+
+```
+
+## Questions, Break, and Optional Challenge:
+* Expect that the trimmed files have higher overall quality
+* Often, we check that this is true by running FASTQC again
+* Take a break for 10 minutes or run fastqc on your trimmed samples
+
+```
+fastqc ~/dc_workshop/data/trimmed_fastq/*.fastq*
+
+# In a new terminal window on your local computer:
+
+mkdir ~/Desktop/fastqc_html/trimmed
+scp dcuser@XXX:~/dc_workshop/data/trimmed_fastq/*.html ~/Desktop/fastqc_html/trimmed
 ```
