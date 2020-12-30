@@ -105,7 +105,59 @@ done
 # It is likely that a hupermutable phenotype evolved between generation 15000 and 50000
 ```
 
-## We are done, but here is a challenge:
+## We are done, but here is a challenge homework:
 * Our alignment was performed using a subset of the data.
 * Copy and edit the variant calling script to run on the full data and see how the mutations differ
 
+```
+cd ../data/trimmed_fastq/
+gunzip *.trim.fastq.gz
+
+# edit variant calling script
+
+set -e
+cd ~/dc_workshop/results
+
+genome=~/dc_workshop/data/ref_genome/ecoli_rel606.fasta
+
+bwa index $genome
+
+mkdir -p sam_full bam_full bcf_full vcf_full
+
+for fq1 in ~/dc_workshop/data/trimmed_fastq/*_1.trim.fastq
+    do
+    echo "working with file $fq1"
+
+    base=$(basename $fq1 _1.trim.fastq)
+    echo "base name is $base"
+
+    fq1=~/dc_workshop/data/trimmed_fastq/${base}_1.trim.fastq
+    fq2=~/dc_workshop/data/trimmed_fastq/${base}_2.trim.fastq
+    sam=~/dc_workshop/results/sam_full/${base}.aligned.sam
+    bam=~/dc_workshop/results/bam_full/${base}.aligned.bam
+    sorted_bam=~/dc_workshop/results/bam_full/${base}.aligned.sorted.bam
+    raw_bcf=~/dc_workshop/results/bcf_full/${base}_raw.bcf
+    variants=~/dc_workshop/results/bcf_full/${base}_variants.vcf
+    final_variants=~/dc_workshop/results/vcf_full/${base}_final_variants.vcf 
+
+    bwa mem $genome $fq1 $fq2 > $sam
+    samtools view -S -b $sam > $bam
+    samtools sort -o $sorted_bam $bam 
+    samtools index $sorted_bam
+    bcftools mpileup -O b -o $raw_bcf -f $genome $sorted_bam
+    bcftools call --ploidy 1 -m -v -o $variants $raw_bcf 
+    vcfutils.pl varFilter $variants > $final_variants
+   
+    done
+    
+    
+for infile in ~/dc_workshop/results/vcf_full/*_final_variants.vcf
+do
+echo ${infile}
+grep -v "#" ${infile} | wc -l
+done
+
+# Sample 9044 generation 5000 = 10 mutations
+# Sample 4863 generation 15000 = 27 mutations
+# Sample 4866 generation 50000 = 793 mutations
+```
