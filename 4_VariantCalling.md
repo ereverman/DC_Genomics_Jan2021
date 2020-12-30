@@ -133,12 +133,67 @@ bcftools call --ploidy 1 -m -v -o results/bcf/SRR2584866_variants.vcf results/bc
 ```
 
 ## Filter and report SNPs in Variant Calling Format (VCF)
+https://gatk.broadinstitute.org/hc/en-us
 ```
 vcfutils.pl varFilter results/bcf/SRR2584866_variants.vcf  > results/vcf/SRR2584866_final_variants.vcf
 less -S results/vcf/SRR2584866_final_variants.vcf
 ```
 
+## Exercise:
+How many variants are in the vcf file?
 
+```
+grep -v "#" results/vcf/SRR2584866_final_variants.vcf | wc -l
 
+# 766
+```
 
+## Visualizing the alignment (two methods)
+* How many have IGV installed on your local computer? THUMBS UP/DOWN
 
+* Data visualization can give you ideas for further analyses and can help identify abnormalities
+* We will look at two tools:
+
+### Method one:
+```
+# First index the BAM file using samtools:
+samtools index results/bam/SRR2584866.aligned.sorted.bam
+
+# Then visualize mapped reads with tview:
+samtools tview results/bam/SRR2584866.aligned.sorted.bam data/ref_genome/ecoli_rel606.fasta
+
+# First line shows genome coordinates in reference
+# Second line shows reference sequence
+# Third line shows the concensus sequence determined from the sequence reads . is match to reference.
+# Below the horizontal line we see reads aligned with the reference
+
+# We can check a specific location:
+g
+CP000819.1:4377265
+return
+
+# G is the variant A is the reference
+q to quit
+
+```
+
+### Method two:
+http://software.broadinstitute.org/software/igv/download
+
+* IGV is a GUI browser that can be installed on your local computer
+* We need to transfer files to our local desktop
+
+```
+# Move to your local computer terminal
+mkdir ~/Desktop/files_for_igv
+cd ~/Desktop/files_for_igv
+
+# We need to transfer 4 files:
+scp dcuser@ec2-34-203-203-131.compute-1.amazonaws.com:~/dc_workshop/results/bam/SRR2584866.aligned.sorted.bam ~/Desktop/files_for_igv
+
+scp dcuser@ec2-34-203-203-131.compute-1.amazonaws.com:~/dc_workshop/results/bam/SRR2584866.aligned.sorted.bam.bai ~/Desktop/files_for_igv
+
+scp dcuser@ec2-34-203-203-131.compute-1.amazonaws.com:~/dc_workshop/data/ref_genome/ecoli_rel606.fasta ~/Desktop/files_for_igv
+
+scp dcuser@ec2-34-203-203-131.compute-1.amazonaws.com:~/dc_workshop/results/vcf/SRR2584866_final_variants.vcf ~/Desktop/files_for_igv
+```
