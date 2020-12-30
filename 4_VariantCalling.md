@@ -197,3 +197,10 @@ scp dcuser@ec2-34-203-203-131.compute-1.amazonaws.com:~/dc_workshop/data/ref_gen
 
 scp dcuser@ec2-34-203-203-131.compute-1.amazonaws.com:~/dc_workshop/results/vcf/SRR2584866_final_variants.vcf ~/Desktop/files_for_igv
 ```
+1. Open IGV
+2. Load reference genome file
+ * Genomes --> Load Genomes from File
+3. Load BAM file
+ * File --> Load from File
+4. Load VCF
+ * File --> Load from File
