@@ -166,7 +166,7 @@ done
 
 ```
 touch sysinfo.txt
-lshw -> sysinfo.txt
+lshw > sysinfo.txt
 apt list --installed –> pkginfo.txt
 
 ```
