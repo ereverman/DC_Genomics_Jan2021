@@ -161,3 +161,12 @@ done
 # Sample 4863 generation 15000 = 27 mutations
 # Sample 4866 generation 50000 = 793 mutations
 ```
+
+### Supporting reproducibility
+
+```
+touch sysinfo.txt
+lshw -> sysinfo.txt
+apt list --installed –> pkginfo.txt
+
+```
