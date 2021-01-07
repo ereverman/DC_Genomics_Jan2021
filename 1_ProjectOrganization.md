@@ -41,25 +41,39 @@ nano
 # Instructions:
 # CHANGE the PROJECT_DIR directory path in the script below:
 
-PROJECT_DIR=/home/dcuser/dc_worshop/
-cd ${PROJECT_DIR}
+PROJECT_DIR=/home/dcuser/dc_workshop/
 
 # DATA:
 DATA_DIR=${PROJECT_DIR}/data
 DATA_RAW=${DATA_DIR}/raw
 DATA_PROCESSED=${DATA_DIR}/processed
 
-# Results directories
+# RESULTS:
 RESULTS_DIR=${PROJECT_DIR}/results
 
-# Documents
+# DOCS:
 DOCS_DIR=${PROJECT_DIR}/docs
+
+# SCRIPTS:
+SCRIPTS_DIR=${PROJECT_DIR}/scripts
 
 mkdir -p ${PROJECT_DIR} \
          ${DATA_DIR} \
          ${DATA_RAW} \
          ${DATA_PROCESSED} \
          ${RESULTS_DIR} \
-         ${DOCS_DIR}
+         ${DOCS_DIR} \
+         ${SCRIPTS_DIR} \
          
+```
+## Document your activity:
+```
+history
+
+history | tail -n 7
+
+# Exercise: Redirect the last commands you ran to a new file and save it in the docs dir
+
+history | tail -n 1 >> dc_workshop/docs/dc_workshop_log_2021_01_08.sh
+
 ```
