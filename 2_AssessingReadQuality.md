@@ -49,7 +49,24 @@
  * Data are provided in FASTQ format
 
 ## Download the data:
+* All of the data files you've worked with so far were pre-loaded
+* Under normal situations you will be up and downloading data
+* These data may come from collaborators or from online repositories
+
+* There are two programs that will download data from a remote server to your local or remote computer
+ * wget = world wide web get, downloads web pages or data at a web address
+ * curl = "see URL", displays webpages or data at a web address
+* Typically use depends on operating system
+* First determine whether you have wget or curl installed to use:
 ```
+which curl
+which wget
+
+# Which is a BASH program that looks through everything you have installed and tells you where it is installed.
+# no results means the searched program isn't installed
+# both are installed on the AMI, try on your local computer
+```
+
 mkdir -p ~/dc_workshop/data/untrimmed_fastq/
 cd ~/dc_workshop/data/untrimmed_fastq/
 
