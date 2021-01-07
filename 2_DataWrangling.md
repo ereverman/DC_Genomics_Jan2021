@@ -34,18 +34,32 @@
 * OUR GOAL is to identify and characterize these changes using a variant calling pipeline.
 
 * Here are your metadata: https://raw.githubusercontent.com/datacarpentry/wrangling-genomics/gh-pages/files/Ecoli_metadata_composite.csv
+
+## Download the data:
+* All of the data files you've worked with so far were pre-loaded
+* Under normal situations you will be up and downloading data
+* These data may come from collaborators or from online repositories
+
+* There are two programs that will download data from a remote server to your local or remote computer
+ * wget = world wide web get, downloads web pages or data at a web address
+ * curl = "see URL", displays webpages or data at a web address
+* Typically use depends on operating system
+* First determine whether you have wget or curl installed to use:
 ```
-# If you haven't already logged on to the AWI, please do so.
-# password: data4Carp
+which curl
+which wget
 
-clear
-PS1='$ '
+# Which is a BASH program that looks through everything you have installed and tells you where it is installed.
+# no results means the searched program isn't installed
+# both are installed on the AMI, try on your local computer
+```
 
+```
 pwd
 cd shell_data/sra_metadata/
 curl -O https://raw.githubusercontent.com/datacarpentry/wrangling-genomics/gh-pages/files/Ecoli_metadata_composite.csv
 ls
-
+# -O flag tells the program to download a file rather than just showing the webpage to us
 # CLICK THUMBS UP when you have downloaded the metadata
 ```
 * Explanation of spreadsheet headers:
