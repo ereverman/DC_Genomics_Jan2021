@@ -92,3 +92,21 @@ history | tail -n 7
 history | tail -n 1 >> dc_workshop/docs/dc_workshop_log_2021_01_08.sh
 
 ```
+
+## Moving files and data between the AMI and your local computer:
+* Scripts like the ProjectTemplate.sh are general enough that they can be used again and again
+* Shorter analyses and data visualization is often easier on your local computer
+* Both of these things necessitate transferring files between your remote and local computers
+
+* Let's download our ProjectTemplate.sh script from the AMI to your local computer:
+```
+# This will vary by operating system:
+
+Mac: 
+# New tab
+ps -p $$
+cshs -s /bin/bash # if running zsh and get an error message. need password to change
+cd Desktop
+scp dcuser@IP.address:/home/dcuser/ProjectTemplate.sh .
+```
+
