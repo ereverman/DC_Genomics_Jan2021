@@ -32,6 +32,12 @@ rm -r dc_workshop
 * We can facilitate this by building a special customized program that will set up our directory structure
 * This will involve a new tool or program called nano
   * nano is a simple text editor
+   * You can't point and click to select text
+   * Use the arrow keys to move around
+   * Move around more quickly with control --> or control <--
+   * Move to the beginning of a line with control a
+   * Move to the end of a line with control e
+   * Search with control w
   * It can be useful for editing documents or writing short scripts, but it isn't anyone's favorite text editor.
 ```
 nano
@@ -65,6 +71,15 @@ mkdir -p ${PROJECT_DIR} \
          ${DOCS_DIR} \
          ${SCRIPTS_DIR} \
          
+# control o to save
+# control x to exit
+
+
+ls
+sh ProjectTemplate.sh
+ls
+ls dc_workshop
+ls dc_workshop/data
 ```
 ## Document your activity:
 ```
