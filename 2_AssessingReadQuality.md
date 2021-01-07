@@ -67,6 +67,7 @@ which wget
 # both are installed on the AMI, try on your local computer
 ```
 
+```
 mkdir -p ~/dc_workshop/data/untrimmed_fastq/
 cd ~/dc_workshop/data/untrimmed_fastq/
 
