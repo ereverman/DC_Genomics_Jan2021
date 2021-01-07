@@ -34,14 +34,11 @@ rm -r dc_workshop
   * nano is a simple text editor
   * It can be useful for editing documents or writing short scripts, but it isn't anyone's favorite text editor.
 ```
-mkdir dc_carpentry
-
 nano
 
 # Bioinformatics project template
 
 # Instructions:
-# Create a project directory
 # CHANGE the PROJECT_DIR directory path in the script below:
 
 PROJECT_DIR=/home/dcuser/dc_worshop/
