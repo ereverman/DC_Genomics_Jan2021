@@ -38,46 +38,31 @@ mkdir dc_carpentry
 
 nano
 
-# Bioinformatics project template:
-# Change the PROJECT_DIR directory path
-# Change the PROJECT name
+# Bioinformatics project template
 
+# Instructions:
+# Create a project directory
+# CHANGE the PROJECT_DIR directory path in the script below:
 
-# Assign the dir names to variables
-PROJECT_DIR=~/dcuser/dc_worshop/
+PROJECT_DIR=/home/dcuser/dc_worshop/
+cd ${PROJECT_DIR}
 
-# Data directories
+# DATA:
 DATA_DIR=${PROJECT_DIR}/data
+DATA_RAW=${DATA_DIR}/raw
+DATA_PROCESSED=${DATA_DIR}/processed
 
-# Output directories
-OUTPUTS_DIR=${PROJECT_DIR}/outputs
+# Results directories
+RESULTS_DIR=${PROJECT_DIR}/results
 
-FIGURES_DIR=${OUTPUTS_DIR}/figures
-FILES_DIR=${OUTPUTS_DIR}/files
-
-# Reports and Manuscripts
-REPORTS_MANUSCRIPTS_DIR=${PROJECT_DIR}/reports_manuscripts
-
-RM_FIGURES_DIR=${REPORTS_MANUSCRIPTS_DIR}/figures
-RM_FILES_DIR=${REPORTS_MANUSCRIPTS_DIR}/files
-
-# Scripts
-SCRIPTS_DIR=${PROJECT_DIR}/scripts
-RCODE_DIR=${SCRIPTS_DIR}/R_Code
-OTHER_DIR=${SCRIPTS_DIR}/other
-
-# Create the dirs if they don't exists
+# Documents
+DOCS_DIR=${PROJECT_DIR}/docs
 
 mkdir -p ${PROJECT_DIR} \
          ${DATA_DIR} \
-         ${DATA_RAW_DIR} \
-         ${DATA_PROCESSED_DIR} \
-         ${OUTPUTS_DIR} \
-         ${FIGURES_DIR} \
-         ${FILES_DIR} \
-         ${REPORTS_MANUSCRIPTS_DIR} \
-         ${RM_FIGURES_DIR} \
-         ${RM_FILES_DIR} \
-         ${SCRIPTS_DIR} \
-         ${RCODE_DIR} \
-         ${OTHER_DIR} \
+         ${DATA_RAW} \
+         ${DATA_PROCESSED} \
+         ${RESULTS_DIR} \
+         ${DOCS_DIR}
+         
+```
