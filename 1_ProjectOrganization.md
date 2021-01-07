@@ -34,3 +34,50 @@ rm -r dc_workshop
   * nano is a simple text editor
   * It can be useful for editing documents or writing short scripts, but it isn't anyone's favorite text editor.
 ```
+mkdir dc_carpentry
+
+nano
+
+# Bioinformatics project template:
+# Change the PROJECT_DIR directory path
+# Change the PROJECT name
+
+
+# Assign the dir names to variables
+PROJECT_DIR=~/dcuser/dc_worshop/
+
+# Data directories
+DATA_DIR=${PROJECT_DIR}/data
+
+# Output directories
+OUTPUTS_DIR=${PROJECT_DIR}/outputs
+
+FIGURES_DIR=${OUTPUTS_DIR}/figures
+FILES_DIR=${OUTPUTS_DIR}/files
+
+# Reports and Manuscripts
+REPORTS_MANUSCRIPTS_DIR=${PROJECT_DIR}/reports_manuscripts
+
+RM_FIGURES_DIR=${REPORTS_MANUSCRIPTS_DIR}/figures
+RM_FILES_DIR=${REPORTS_MANUSCRIPTS_DIR}/files
+
+# Scripts
+SCRIPTS_DIR=${PROJECT_DIR}/scripts
+RCODE_DIR=${SCRIPTS_DIR}/R_Code
+OTHER_DIR=${SCRIPTS_DIR}/other
+
+# Create the dirs if they don't exists
+
+mkdir -p ${PROJECT_DIR} \
+         ${DATA_DIR} \
+         ${DATA_RAW_DIR} \
+         ${DATA_PROCESSED_DIR} \
+         ${OUTPUTS_DIR} \
+         ${FIGURES_DIR} \
+         ${FILES_DIR} \
+         ${REPORTS_MANUSCRIPTS_DIR} \
+         ${RM_FIGURES_DIR} \
+         ${RM_FILES_DIR} \
+         ${SCRIPTS_DIR} \
+         ${RCODE_DIR} \
+         ${OTHER_DIR} \
