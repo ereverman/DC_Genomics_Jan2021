@@ -74,12 +74,16 @@ heatmap(cor(cpm_log_clean))
 
 # It is also common practice to use principal components analysis to look at relationships between comparison groups.
 pca <- prcomp(t(cpm_log_clean), scale. = TRUE ) # transposes the data frame, scales variables so that they have unit variance
-PCA_data <- pca$x
-head(PCA_data)
-
-plot(pca$x[, 1], pca$x[, 2], pch = ".", xlab = "PC1", ylab = "PC2")
-text(pca$x[, 1], pca$x[, 2], labels = colnames(cpm_log))
 summary(pca)
+PCA_data <- as.data.frame(pca$x)
+head(PCA_data)
+PCA_data$group <- c(rep("A", 5), rep("B", 5))
+
+ggplot(PCA_data, aes(PC1, PC2, color = group)) +
+  geom_point() +
+  theme_classic()
+
+
 
 ###
 
@@ -122,9 +126,131 @@ y$samples
 y <- estimateDisp(y)
 
 
+y <- estimateDisp(y)
+sqrt(y$common.dispersion) # biological coefficient of variation
+plotBCV(y)
+
+# The biological coefficient of variation is lower than normally seen in human studies (~0.4) because the samples are technical replicates.
+
+# edgeR tests for differential expression between two classes using a method similar in idea to the Fisher's Exact Test.
+
+et <- exactTest(y)
+results_edgeR <- topTags(et, n = nrow(data_clean), sort.by = "none")
+head(results_edgeR$table)
+
+write.csv(results_edgeR$table, "test.table.csv")
+
+# How many genes are differentially expressed at an FDR of 10%?
+head(results_edgeR$table$FDR < .1)
+sum(results_edgeR$table$FDR < .1) # R assigns the value 1 to TRUE logical data, so it's possible to count the trues
+plotSmear(et, de.tags = rownames(results_edgeR)[results_edgeR$table$FDR < .1])
+abline(h = c(-2, 2), col = "blue")
+
+# As expected from the description of the samples and the heatmap, there are many differentially expressed genes.
+# The [MA plot][ma] above plots the log~2~ fold change on the y-axis versus the average log~2~ counts-per-million on the x-axis.
+# The red dots are genes with an FDR less than 10%.
+# The blue lines represent a four-fold change in expression.
 
 
 
+## Adding covariates
+
+# The previous example was a two group comparison, but if you have additional covariates, you'll need to use a generalized linear model (GLM) framework.
+# Let's say we processed the samples in two batches and also recorded the [RIN scores][rin] to control for differences in RNA quality.
+
+# rin varies 1 - 10 with 10 being pristine and 1 totally degraded
 
 
+set.seed(123) # sets a starting number to generate random data, setting seed allows us to get the same random data
 
+batch <- sample(c("one", "two"), 10, replace = TRUE)
+rin <- sample(6:10, 10, replace = TRUE)
+
+batch
+rin
+
+
+# We need to create a design matrix to describe the statistical model.
+
+
+y <- DGEList(data_clean)
+y <- calcNormFactors(y)
+
+y
+design <- model.matrix(~group + batch + rin)
+design
+
+# Important to know how your samples are being compared. in this case b is compared to group a and batch 2 is compared to batch 1
+# if you have a positive log fold change, does this mean that your treatment increased gene expression?
+# case versus control, then yes but if its comaring control to case, then no.
+
+
+# And now we test.
+# The argument `coef = 2` corresponds to testing the second column of the design matrix, which in this case is whether the sample is from group A or B.
+
+y <- estimateDisp(y, design)
+y
+fit <- glmFit(y, design)
+lrt <- glmLRT(fit, coef = 2)
+topTags(lrt)
+
+
+# Make some plots of individual genes:
+
+head(cpm_log_clean)
+class(cpm_log_clean)
+
+# First need to transpose
+cpm_t <- t(cpm_log_clean)
+head(cpm_t[,1:5])
+class(cpm_t)
+
+# Next add the group identifier:
+# Matices can hold only one data type, because we are mixing numbers and characters by adding a group column
+# need to switch to a dataframe
+
+cpm_df <- as.data.frame(cpm_t)
+class(cpm_df)
+head(cpm_df[,1:5])
+
+group
+
+cpm_df$Group <- group
+head(cpm_df[,1:5]) # adds it to the end
+dim(cpm_df)
+head(cpm_df[,16370:16372])
+
+# What genes would be good to look at:
+topTags(lrt)
+
+
+ggplot(cpm_df, aes(Group, C1QB)) +
+  geom_boxplot() +
+  theme_classic()
+
+ggplot(cpm_df, aes(Group, HBB)) +
+  geom_boxplot() +
+  theme_classic()
+
+ggplot(cpm_df, aes(Group, CARD9)) +
+  geom_boxplot() +
+  theme_classic()
+
+
+ggplot(cpm_df, aes(Group, SENP8)) +
+  geom_boxplot() +
+  theme_classic()
+
+SENP8
+
+
+# One more heatmap:
+top_genes <- as.data.frame(topTags(lrt))
+class(top_genes)
+top_gene_names <- rownames(top_genes)
+head(cpm_log_clean)
+
+cpm_topgenes <- cpm_log_clean[top_gene_names, ]
+cpm_topgenes
+
+heatmap(cpm_topgenes)

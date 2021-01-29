@@ -1,0 +1,141 @@
+---
+title: "Example_Rmarkdown.md"
+author: "Elizabeth Everman"
+date: "1/14/2021"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(echo = TRUE) 
+
+# Setting include = FALSE hides this code chunk
+# Setting echo = TRUE includes code in report
+```
+
+## R Markdown
+
+R Markdown can generate 3 types of documents:
+
+- HTML 
+- PDF
+- MS Word
+
+To preview your document, click:
+
+- Settings
+  - Preview in Viewer Pane
+    - Knit
+    
+
+To change text appearance:
+
+# Biggest
+## Smaller
+### Small
+#### Even Smaller
+##### Tiny
+###### Why Bother
+
+**bold**
+
+*italics*
+
+~~strikethrough~~
+
+superscript^2^
+
+$$E = mc^2$$
+
+[More R Markdown Help](rmarkdown.rstudo.com)
+
+
+## Producing a Report:
+
+```{r Libraries, include=TRUE}
+
+# Install the package pacman.
+# Then use p_load to load packages and install them if needed.
+pacman::p_load(ggplot2, Rmisc)
+```
+
+
+### Analysis of Very Important Iris Characteristics
+
+```{r Datafiles, include=TRUE}
+# we will practice with a pre-loaded dataframe:
+head(iris)
+summary(iris)
+```
+
+### Analyses: lm and anova
+
+There is a significant correlation between Sepal length and width.
+
+```{r Correlation between Sepal lengh and width}
+# not necessary to use include=TRUE.
+
+sepal_size.lm <- lm(Sepal.Length ~ Sepal.Width, data = iris)
+summary(sepal_size.lm)
+```
+
+Sepal size varies across the three iris species.
+
+```{r ANOVA: EO Species on Sepal Size}
+
+iris$Sepal.Size <- iris$Sepal.Length * iris$Sepal.Width
+
+species_sepals.aov <- aov(Sepal.Size ~ Species, data = iris)
+anova(species_sepals.aov)
+```
+
+## Plots of Results:
+
+Including echo=FALSE prevents the plot code from beind printed.
+
+
+```{r Plot LM, echo=FALSE}
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+
+# Customized version:
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  geom_point() +
+  geom_smooth(method = "lm", aes(fill = Species)) +
+  xlab("Sepal Length") +
+  ylab("Sepal Width") +
+  scale_color_manual(values = c("purple", "violet", "pink")) +
+  scale_fill_manual(values = c("purple", "violet", "pink")) +
+  theme_classic()
+```
+
+Bonus function for data analysis:
+Rmisc includes summary functions useful for plotting anova results.
+
+```{r Plot ANOVA, echo=FALSE}
+
+sepal_size_summary <- summarySE(data = iris, measurevar = "Sepal.Size", groupvars = "Species", na.rm = TRUE)
+sepal_size_summary
+
+ggplot(sepal_size_summary, aes(x = Species, y = Sepal.Size)) +
+  geom_errorbar(aes(ymin = Sepal.Size - ci, ymax = Sepal.Size + ci)) +
+  geom_point() +
+  theme_classic()
+
+ggplot(sepal_size_summary, aes(x = Species, y = Sepal.Size)) +
+  geom_bar(stat = "identity") +
+  geom_errorbar(aes(ymin = Sepal.Size - ci, ymax = Sepal.Size + ci), width = 0.2) +
+  theme_classic()
+
+ggplot(sepal_size_summary, aes(x = Species, y = Sepal.Size, fill = Species)) +
+  geom_bar(stat = "identity") +
+  geom_point() +
+  geom_errorbar(aes(ymin = Sepal.Size - ci, ymax = Sepal.Size + ci), width = 0.2) +
+  scale_fill_manual(values = c("purple", "violet", "pink")) +
+  annotate("text", label = "*", x = 3, y = 22, size = 10) +
+  theme_classic()
+
+```
